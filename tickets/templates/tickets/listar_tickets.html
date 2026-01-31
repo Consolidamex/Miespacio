@@ -1,0 +1,9 @@
+<h1>Tickets</h1>
+<ul>
+    {% for ticket in tickets %}
+        <li>{{ ticket.titulo }} - {{ ticket.estado }}</li>
+    {% empty %}
+        <li>No hay tickets registrados.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'crear_ticket' %}">Crear ticket</a>
