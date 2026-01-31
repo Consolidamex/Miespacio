@@ -1,9 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <h1>Tickets</h1>
+<a href="{% url 'tickets:crear_ticket' %}">Crear ticket</a>
+
+<form method="get" style="margin: 10px 0;">
+    <input type="text" name="q" placeholder="Buscar..." value="{{ q }}">
+    <select name="estado">
+        <option value="">Todos los estados</option>
+        <option value="Abierto" {% if estado == 'Abierto' %}selected{% endif %}>Abierto</option>
+        <option value="En progreso" {% if estado == 'En progreso' %}selected{% endif %}>En progreso</option>
+        <option value="Cerrado" {% if estado == 'Cerrado' %}selected{% endif %}>Cerrado</option>
+    </select>
+    <button type="submit">Filtrar</button>
+</form>
+
 <ul>
     {% for ticket in tickets %}
-        <li>{{ ticket.titulo }} - {{ ticket.estado }}</li>
+        <li>
+            <strong><a href="{% url 'tickets:ticket_detail' ticket.id %}">{{ ticket.titulo }}</a></strong> - {{ ticket.estado }}
+            <br>{{ ticket.descripcion|truncatewords:20 }}
+            <br><small>Creado: {{ ticket.creado_en }}</small>
+            [<a href="{% url 'tickets:ticket_update' ticket.id %}">editar</a>]
+            [<a href="{% url 'tickets:ticket_delete' ticket.id %}">eliminar</a>]
+        </li>
     {% empty %}
         <li>No hay tickets registrados.</li>
     {% endfor %}
 </ul>
-<a href="{% url 'crear_ticket' %}">Crear ticket</a>
+
+<!-- Paginación -->
+{% if paginator.num_pages > 1 %}
+<div style="margin-top: 20px;">
+    {% if page.has_previous %}
+        <a href="?page=1&q={{ q }}&estado={{ estado }}">Primera</a>
+        <a href="?page={{ page.previous_page_number }}&q={{ q }}&estado={{ estado }}">Anterior</a>
+    {% endif %}
+    
+    <span>Página {{ page.number }} de {{ paginator.num_pages }}</span>
+    
+    {% if page.has_next %}
+        <a href="?page={{ page.next_page_number }}&q={{ q }}&estado={{ estado }}">Siguiente</a>
+        <a href="?page={{ paginator.num_pages }}&q={{ q }}&estado={{ estado }}">Última</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

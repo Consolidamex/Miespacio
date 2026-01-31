@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Activos IT</h1>
+<a href="{% url 'it_admin:activo_create' %}">Crear activo</a>
+<ul>
+{% for activo in activos %}
+    <li>
+        {{ activo.nombre }} - {{ activo.tipo }} - {{ activo.numero_serie }} - {{ activo.estado }}
+        [<a href="{% url 'it_admin:activo_update' activo.id %}">editar</a>]
+        [<a href="{% url 'it_admin:activo_delete' activo.id %}">eliminar</a>]
+    </li>
+{% empty %}
+    <li>No hay activos registrados.</li>
+{% endfor %}
+</ul>
+{% endblock %}

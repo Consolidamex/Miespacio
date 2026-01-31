@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Detalle del Ticket</h1>
+<p><strong>Titulo:</strong> {{ ticket.titulo }}</p>
+<p><strong>Descripción:</strong> {{ ticket.descripcion }}</p>
+<p><strong>Estado:</strong> {{ ticket.estado }}</p>
+<p><strong>Asignado a:</strong> {{ ticket.asignado_a }}</p>
+<p><strong>Creado:</strong> {{ ticket.creado_en }}</p>
+<a href="{% url 'tickets:ticket_update' ticket.id %}">Editar</a>
+<a href="{% url 'tickets:ticket_delete' ticket.id %}">Eliminar</a>
+<a href="{% url 'tickets:listar_tickets' %}">Volver</a>
+{% endblock %}

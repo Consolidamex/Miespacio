@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - TI Platform{% endblock %}
+
+{% block content %}
+<h2>Iniciar Sesión</h2>
+
+{% if form.non_field_errors %}
+    <div style="color: red; margin-bottom: 10px;">
+        <p><strong>Error de autenticación:</strong></p>
+        <ul>
+        {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+<form method="post" style="max-width: 400px;">
+    {% csrf_token %}
+    
+    <div style="margin-bottom: 15px;">
+        <label for="{{ form.username.id_for_label }}">Usuario:</label><br>
+        <input type="text" id="{{ form.username.id_for_label }}" name="username" required style="width: 100%; padding: 5px;">
+        {% if form.username.errors %}
+            <div style="color: red;">{{ form.username.errors }}</div>
+        {% endif %}
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+        <label for="{{ form.password.id_for_label }}">Contraseña:</label><br>
+        <input type="password" id="{{ form.password.id_for_label }}" name="password" required style="width: 100%; padding: 5px;">
+        {% if form.password.errors %}
+            <div style="color: red;">{{ form.password.errors }}</div>
+        {% endif %}
+    </div>
+    
+    <button type="submit" style="padding: 8px 20px; background: #333; color: white; border: none; cursor: pointer;">Iniciar Sesión</button>
+</form>
+
+<p style="margin-top: 20px;">
+    <a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
+</p>
+{% endblock %}
